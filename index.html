@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Telolet MIDI V9 ESP32 Web Flasher</title>
+  <link rel="stylesheet" href="./style.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%BA%3C/text%3E%3C/svg%3E" />
+  <script type="module" src="./script.js"></script>
+</head>
+<body>
+  <div class="ambient" aria-hidden="true">
+    <span class="blob blob-a"></span>
+    <span class="blob blob-b"></span>
+  </div>
+  <main class="shell">
+    <section class="hero card">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">🎺</div>
+        <div>
+          <p class="eyebrow">ESP32 Web Serial Flasher</p>
+          <h1>Telolet MIDI V9</h1>
+          <p class="subtitle">Flash firmware ESP32 langsung dari browser. Tidak perlu aplikasi tambahan, cuma Chrome/Edge dan kabel USB data.</p>
+        </div>
+      </div>
+
+      <div class="status-grid" aria-label="Status flasher">
+        <div class="status-pill" id="browserStatus">🌐 Browser: mengecek...</div>
+        <div class="status-pill" id="portStatus">🔌 Port Serial: Belum Terhubung</div>
+        <div class="status-pill" id="fileStatus">📦 Firmware: Belum Diperiksa</div>
+      </div>
+    </section>
+
+    <section class="layout">
+      <section class="card controls">
+        <h2>⚙️ Kontrol Flash</h2>
+
+        <div class="form-row">
+          <label for="baudrate">🚀 Baudrate</label>
+          <select id="baudrate">
+            <option value="115200" selected>115200 - paling aman</option>
+            <option value="230400">230400 - normal</option>
+            <option value="460800">460800 - stabil</option>
+            <option value="921600">921600 - cepat</option>
+          </select>
+        </div>
+
+        <div class="form-row two">
+          <label class="check"><input id="eraseAll" type="checkbox" /> 🧹 Erase all sebelum flash</label>
+          <label class="check"><input id="debugLog" type="checkbox" /> 🐞 Debug log</label>
+        </div>
+
+        <div class="file-list" aria-label="Daftar firmware">
+          <div class="file-item"><span>🧩 bootloader.bin</span><code>0x1000</code></div>
+          <div class="file-item"><span>🗂️ partitions.bin</span><code>0x8000</code></div>
+          <div class="file-item"><span>🎶 telolet_midi_v9.bin</span><code>0x10000</code></div>
+        </div>
+
+        <div class="button-row">
+          <button id="connectBtn" class="btn secondary">🔌 Connect</button>
+          <button id="flashBtn" class="btn primary" disabled>⚡ Flash Telolet MIDI V9</button>
+          <button id="disconnectBtn" class="btn danger" disabled>⛔ Disconnect</button>
+        </div>
+
+        <div class="hint">
+          💡 Apabila perangkat tidak dapat terhubung, tekan dan tahan tombol <b>BOOT</b> pada ESP32 sebelum memulai koneksi. Lepaskan tombol setelah sistem berhasil mendeteksi perangkat.
+        </div>
+      </section>
+
+      <section class="card progress-card">
+        <h2>📊 Progress</h2>
+        <div class="progress-wrap">
+          <div class="progress-head"><span id="progressText">Menunggu Proses Flashing</span><span id="progressPercent">0%</span></div>
+          <div class="progress"><div id="progressBar"></div></div>
+        </div>
+
+        <div class="mini-grid">
+          <div class="mini-card"><span>🧠 Chip</span><b id="chipName">-</b></div>
+          <div class="mini-card"><span>📄 Firmware</span><b id="activeFile">-</b></div>
+          <div class="mini-card"><span>✅ Status</span><b id="finalStatus">Idle</b></div>
+        </div>
+      </section>
+    </section>
+
+    <section class="card terminal-card">
+      <div class="terminal-head">
+        <h2>🖥️ Terminal</h2>
+        <div class="terminal-actions">
+          <button id="copyLogBtn" class="tiny">📋 Copy log</button>
+          <button id="clearLogBtn" class="tiny">🧽 Clear</button>
+        </div>
+      </div>
+      <pre id="terminal" aria-live="polite"></pre>
+    </section>
+  </main>
+</body>
+</html>
